@@ -1,0 +1,178 @@
+{
+    "authentication": {
+        "signup": {
+            "method": "POST",
+            "endpoint": "/api/auth/signup",
+            "request_body": {
+                "username": "admin_user",
+                "email": "admin@example.com",
+                "password": "password123"
+            },
+            "response_example": {
+                "message": "User registered successfully",
+                "user": {
+                    "_id": "64f1a2b3c4d5e6f7a8b9c0d1",
+                    "username": "admin_user",
+                    "email": "admin@example.com"
+                }
+            }
+        },
+        "login": {
+            "method": "POST",
+            "endpoint": "/api/auth/login",
+            "request_body": {
+                "username": "admin_user",
+                "password": "password123"
+            },
+            "response_example": {
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                "user": {
+                    "_id": "64f1a2b3c4d5e6f7a8b9c0d1",
+                    "username": "admin_user"
+                }
+            }
+        }
+    },
+    "employee_base_crud": {
+        "get_all_employees": {
+            "method": "GET",
+            "endpoint": "/api/employees",
+            "headers": {
+                "Authorization": "Bearer <YOUR_TOKEN>"
+            },
+            "response_example": [
+                {
+                    "_id": "651a2b3c4d5e6f7a8b9c0e2",
+                    "name": "Jane Smith",
+                    "email": "jane@example.com",
+                    "currentProject": "UI Revamp",
+                    "salary": 7500,
+                    "status": "IN"
+                }
+            ]
+        },
+        "create_employee": {
+            "method": "POST",
+            "endpoint": "/api/employees",
+            "headers": {
+                "Authorization": "Bearer <YOUR_TOKEN>"
+            },
+            "request_body": {
+                "name": "Arjun Sharma",
+                "email": "arjun@example.com",
+                "currentProject": "FinFactor Integration",
+                "salary": 9000,
+                "status": "IN"
+            },
+            "response_example": {
+                "_id": "651a2b3c4d5e6f7a8b9c0e3",
+                "name": "Arjun Sharma",
+                "email": "arjun@example.com",
+                "currentProject": "FinFactor Integration",
+                "salary": 9000,
+                "status": "IN",
+                "__v": 0
+            }
+        },
+        "update_employee": {
+            "method": "PUT",
+            "endpoint": "/api/employees/651a2b3c4d5e6f7a8b9c0e3",
+            "headers": {
+                "Authorization": "Bearer <YOUR_TOKEN>"
+            },
+            "request_body": {
+                "status": "OUT",
+                "currentProject": "Internal Audit"
+            },
+            "response_example": {
+                "_id": "651a2b3c4d5e6f7a8b9c0e3",
+                "name": "Arjun Sharma",
+                "email": "arjun@example.com",
+                "currentProject": "Internal Audit",
+                "salary": 9000,
+                "status": "OUT"
+            }
+        },
+        "delete_employee": {
+            "method": "DELETE",
+            "endpoint": "/api/employees/651a2b3c4d5e6f7a8b9c0e3",
+            "headers": {
+                "Authorization": "Bearer <YOUR_TOKEN>"
+            },
+            "response_example": {
+                "message": "Employee removed successfully"
+            }
+        }
+    },
+    "nested_employee_operations": {
+        "get_dashboard": {
+            "method": "GET",
+            "endpoint": "/api/employees/:employee_id/dashboard",
+            "headers": {
+                "Authorization": "Bearer <YOUR_TOKEN>"
+            },
+            "response_example": {
+                "success": true,
+                "data": {
+                    "employee": {
+                        "_id": "...",
+                        "name": "..."
+                    },
+                    "projects": [],
+                    "attendance": [],
+                    "salaryHistory": []
+                }
+            }
+        },
+        "add_project": {
+            "method": "POST",
+            "endpoint": "/api/employees/:employee_id/projects",
+            "request_body": {
+                "name": "Cloud Migration",
+                "description": "Moving servers to AWS for scalability",
+                "status": "Ongoing"
+            },
+            "response_example": {
+                "success": true,
+                "data": {
+                    "_id": "651a3b...",
+                    "employeeId": "651a2b...",
+                    "name": "Cloud Migration",
+                    "status": "Ongoing"
+                }
+            }
+        },
+        "add_attendance": {
+            "method": "POST",
+            "endpoint": "/api/employees/:employee_id/attendance",
+            "request_body": {
+                "date": "2026-04-06T09:00:00Z",
+                "status": "Present"
+            },
+            "response_example": {
+                "success": true,
+                "data": {
+                    "employeeId": "651a2b...",
+                    "date": "...",
+                    "status": "Present"
+                }
+            }
+        },
+        "add_salary_history": {
+            "method": "POST",
+            "endpoint": "/api/employees/:employee_id/salary-history",
+            "request_body": {
+                "amount": 9500,
+                "date": "2026-04-01"
+            },
+            "response_example": {
+                "success": true,
+                "data": {
+                    "employeeId": "651a2b...",
+                    "amount": 9500,
+                    "date": "2026-04-01"
+                }
+            }
+        }
+    }
+}
