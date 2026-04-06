@@ -1,45 +1,73 @@
-# Auth & Employee Management Backend
+# Auth & Employee Management System
 
-A professional backend application built with Node.js, Express, and MongoDB.
+A robust, enterprise-grade backend for managing employee authentication, tracking, and nested operational data. Built with Node.js, Express, and MongoDB, this project provides a scalable API architecture for employee lifecycle management.
 
-## Features
-- **User Authentication**: Signup and Login with JWT and password hashing (bcrypt).
-- **Password Validation**: Enforces 8-character minimum.
-- **Employee CRUD**: Full management for employee records.
-- **Employee Tracking**: Track status (IN/OUT), current projects, and salary.
-- **ProtectedRoute**: Employee APIs are secured with JWT.
+## ✨ Key Features
+- **🔑 Secure Authentication**: Tiered access with JWT authentication and salted bcrypt password hashing.
+- **📁 Nested Employee Resources**: Complete management of employee-related sub-data including:
+  *   **Projects**: Track ongoing, pending, and completed assignments.
+  *   **Attendance**: Daily status tracking (Present/Absent).
+  *   **Salary History**: Detailed compensation logging.
+- **📊 Interactive Dashboard**: Aggregated endpoint providing a 360-degree view of an employee's data.
+- **📜 Swagger Documentation**: Integrated, live API documentation for seamless testing and integration.
+- **⚙️ Environment-Driven**: Secure configuration using ENV variables.
 
-## Setup Instructions
-1.  **Install dependencies**:
+## 🚀 Setup & Installation
+1.  **Clone & Install Dependencies**:
     ```bash
     npm install
     ```
-2.  **Configure environment**: 
-    Update the `MONGODB_URI` in the `.env` file to your MongoDB connection string.
-3.  **Run Development server**:
+2.  **Environment Configuration**:
+    Create a `.env` file and set your `MONGODB_URI`:
+    ```env
+    PORT=5000
+    MONGODB_URI=your_mongodb_connection_string
+    JWT_SECRET=your_jwt_secret
+    ```
+3.  **Run Development Server**:
     ```bash
     npm run dev
     ```
 
-## API Endpoints
+## 📖 API Documentation (Swagger)
+The project includes a built-in Swagger UI for easy exploration of all available endpoints.
+
+- **URL**: [http://localhost:5000/api-docs](http://localhost:5000/api-docs)
+
+> [!NOTE]
+> All employee-related endpoints require an `Authorization` header with a valid JWT token. Use the Auth endpoints to generate your token.
+
+## 📡 API Endpoints Summary
 
 ### 1. Authentication (`/api/auth`)
-- **Signup**: `POST /api/auth/signup`
-  - Body: `{ "username": "admin", "email": "admin@example.com", "password": "password123" }`
-- **Login**: `POST /api/auth/login`
-  - Body: `{ "username": "admin", "password": "password123" }`
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/signup` | Register a new user |
+| `POST` | `/login` | Authenticate and receive a JWT token |
 
-### 2. Employee CRUD (`/api/employees`)
-*Note: All these routes require `Authorization: Bearer <TOKEN>` header obtained from Login.*
+### 2. Base Employee CRUD (`/api/employees`)
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/` | Fetch all employees |
+| `POST` | `/` | Create a new employee record |
+| `PUT` | `/:id` | Update employee information |
+| `DELETE` | `/:id` | Soft/Hard delete an employee |
 
-- **Get All**: `GET /api/employees`
-- **Create**: `POST /api/employees`
-  - Body: `{ "name": "John Doe", "status": "IN", "currentProject": "Project Alpha", "salary": 5000, "email": "john@example.com" }`
-- **Update**: `PUT /api/employees/:id`
-  - Body: `{ "status": "OUT", "currentProject": "Project Beta" }`
-- **Delete**: `DELETE /api/employees/:id`
+### 3. Nested Employee Operations (`/api/employees/:id/...`)
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/dashboard` | Fetch aggregated dashboard data |
+| `GET/POST` | `/projects` | Manage employee projects |
+| `GET/POST` | `/attendance` | Track employee attendance |
+| `GET/POST` | `/salary-history` | Manage salary records |
 
-## Validation Rules
-- **Password**: Minimum 8 characters.
-- **Employee Status**: Must be `'IN'` or `'OUT'`.
-- **Salary**: Cannot be negative.
+## 🧪 Testing with Postman/Swagger
+To maintain data integrity and follow standard development practices, this server **does not use seed data**. 
+
+1.  **Register** a new user.
+2.  **Login** to get your token.
+3.  Add your token to **Authorize** in Swagger or the **Bearer Token** field in Postman.
+4.  Begin creating and managing employees!
+
+---
+*Built with ❤️ for a professional backend learning experience.*
