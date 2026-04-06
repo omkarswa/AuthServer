@@ -13,7 +13,11 @@ const {
     getEmployeeAttendance,
     addEmployeeAttendance,
     getEmployeeSalaryHistory,
-    addEmployeeSalaryHistory
+    addEmployeeSalaryHistory,
+    deleteEmployeeProject,
+    deleteEmployeeAttendance,
+    deleteEmployeeSalaryHistory,
+    updateEmployeeProject
 } = require('../controllers/nestedEmployeeController');
 
 /**
@@ -100,10 +104,35 @@ router.get('/:id/dashboard', getEmployeeDashboard);
  *   post:
  *     summary: Add a new project
  *     tags: [Employee Nested]
+ * /api/employees/{id}/projects/{projectId}:
+ *   put:
+ *     summary: Update a project
+ *     tags: [Employee Nested]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *       - in: path
+ *         name: projectId
+ *         required: true
+ *   delete:
+ *     summary: Delete a project
+ *     tags: [Employee Nested]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *       - in: path
+ *         name: projectId
+ *         required: true
  */
 router.route('/:id/projects')
     .get(getEmployeeProjects)
     .post(addEmployeeProject);
+
+router.route('/:id/projects/:projectId')
+    .put(updateEmployeeProject)
+    .delete(deleteEmployeeProject);
 
 /**
  * @swagger
@@ -119,10 +148,24 @@ router.route('/:id/projects')
  *   post:
  *     summary: Log attendance
  *     tags: [Employee Nested]
+ * /api/employees/{id}/attendance/{attendanceId}:
+ *   delete:
+ *     summary: Delete attendance record
+ *     tags: [Employee Nested]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *       - in: path
+ *         name: attendanceId
+ *         required: true
  */
 router.route('/:id/attendance')
     .get(getEmployeeAttendance)
     .post(addEmployeeAttendance);
+
+router.route('/:id/attendance/:attendanceId')
+    .delete(deleteEmployeeAttendance);
 
 /**
  * @swagger
@@ -138,10 +181,24 @@ router.route('/:id/attendance')
  *   post:
  *     summary: Add salary record
  *     tags: [Employee Nested]
+ * /api/employees/{id}/salary-history/{salaryId}:
+ *   delete:
+ *     summary: Delete salary record
+ *     tags: [Employee Nested]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *       - in: path
+ *         name: salaryId
+ *         required: true
  */
 router.route('/:id/salary-history')
     .get(getEmployeeSalaryHistory)
     .post(addEmployeeSalaryHistory);
+
+router.route('/:id/salary-history/:salaryId')
+    .delete(deleteEmployeeSalaryHistory);
 
 // --- General ID Routes (Less Specific) ---
 // Must be defined AFTER nested routes so it doesn't capture routes like /:id/dashboard

@@ -132,3 +132,63 @@ exports.addEmployeeSalaryHistory = async (req, res) => {
         res.status(400).json({ success: false, message: 'Error adding salary record', error: error.message });
     }
 };
+
+/**
+ * @desc    Delete a project
+ * @route   DELETE /api/employees/:id/projects/:projectId
+ */
+exports.deleteEmployeeProject = async (req, res) => {
+    try {
+        const project = await Project.findOneAndDelete({ _id: req.params.projectId, employeeId: req.params.id });
+        if (!project) return res.status(404).json({ success: false, message: 'Project not found' });
+        res.status(200).json({ success: true, message: 'Project deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error deleting project' });
+    }
+};
+
+/**
+ * @desc    Delete attendance record
+ * @route   DELETE /api/employees/:id/attendance/:attendanceId
+ */
+exports.deleteEmployeeAttendance = async (req, res) => {
+    try {
+        const attendance = await Attendance.findOneAndDelete({ _id: req.params.attendanceId, employeeId: req.params.id });
+        if (!attendance) return res.status(404).json({ success: false, message: 'Attendance record not found' });
+        res.status(200).json({ success: true, message: 'Attendance record deleted' });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error deleting attendance' });
+    }
+};
+
+/**
+ * @desc    Delete salary history record
+ * @route   DELETE /api/employees/:id/salary-history/:salaryId
+ */
+exports.deleteEmployeeSalaryHistory = async (req, res) => {
+    try {
+        const salary = await SalaryHistory.findOneAndDelete({ _id: req.params.salaryId, employeeId: req.params.id });
+        if (!salary) return res.status(404).json({ success: false, message: 'Salary record not found' });
+        res.status(200).json({ success: true, message: 'Salary record deleted' });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error deleting salary record' });
+    }
+};
+
+/**
+ * @desc    Update a project record
+ * @route   PUT /api/employees/:id/projects/:projectId
+ */
+exports.updateEmployeeProject = async (req, res) => {
+    try {
+        const project = await Project.findOneAndUpdate(
+            { _id: req.params.projectId, employeeId: req.params.id },
+            req.body,
+            { new: true, runValidators: true }
+        );
+        if (!project) return res.status(404).json({ success: false, message: 'Project not found' });
+        res.status(200).json({ success: true, data: project });
+    } catch (error) {
+        res.status(400).json({ success: false, message: 'Error updating project', error: error.message });
+    }
+};

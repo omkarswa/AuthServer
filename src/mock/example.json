@@ -142,6 +142,28 @@
                 }
             }
         },
+        "update_project": {
+            "method": "PUT",
+            "endpoint": "/api/employees/:employee_id/projects/:project_id",
+            "request_body": {
+                "status": "Completed"
+            },
+            "response_example": {
+                "success": true,
+                "data": {
+                    "_id": "651a3b...",
+                    "status": "Completed"
+                }
+            }
+        },
+        "delete_project": {
+            "method": "DELETE",
+            "endpoint": "/api/employees/:employee_id/projects/:project_id",
+            "response_example": {
+                "success": true,
+                "message": "Project deleted successfully"
+            }
+        },
         "add_attendance": {
             "method": "POST",
             "endpoint": "/api/employees/:employee_id/attendance",
@@ -158,6 +180,14 @@
                 }
             }
         },
+        "delete_attendance": {
+            "method": "DELETE",
+            "endpoint": "/api/employees/:employee_id/attendance/:attendance_id",
+            "response_example": {
+                "success": true,
+                "message": "Attendance record deleted"
+            }
+        },
         "add_salary_history": {
             "method": "POST",
             "endpoint": "/api/employees/:employee_id/salary-history",
@@ -172,6 +202,14 @@
                     "amount": 9500,
                     "date": "2026-04-01"
                 }
+            }
+        },
+        "delete_salary_record": {
+            "method": "DELETE",
+            "endpoint": "/api/employees/:employee_id/salary-history/:salary_id",
+            "response_example": {
+                "success": true,
+                "message": "Salary record deleted"
             }
         }
     }
